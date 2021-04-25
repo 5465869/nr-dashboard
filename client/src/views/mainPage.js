@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function MainPage() {
   // Declare a new state variable, which we'll call "count"
-  const [count, setCount] = useState(0);
+  const [greeting, setGreeting] = useState('');
 
-  callApi = async () => {
+  useEffect(() => {
+    setGreeting(callApi()); 
+  },[]);
+
+  const callApi = async () => {
     const response = await fetch('/api/hello');
     const body = await response.json();
 
@@ -13,7 +17,7 @@ function MainPage() {
     return body;
   };
 
-  handleSubmit = async e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     const response = await fetch('/api/world', {
       method: 'POST',
@@ -29,10 +33,7 @@ function MainPage() {
 
   return (
     <div>
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>
-        Click me
-      </button>
+      {greeting}
     </div>
   );
 }
